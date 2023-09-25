@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Etch-a-Sketch</title>
+</head>
+<body>
+    <button class="button"> Create </button>
+    
+    <div id="container"></div>
+</body>
+<script>
+    
+    //Create a webpage 16x16 grid
+    //Create divs inside grid
+    //Make both appear
+    const container = document.getElementById('container');
+    const button = document.querySelector('.button');
+    
+    button.addEventListener('click', create);
+    
+    function create() {
+        let num = prompt('Enter the number', '');
+        if(num < 0 || num > 100) {
+            return alert("Error");
+        }
+        container.innerText = "";
+        makeGrid(num,num);
+        let divs = document.querySelectorAll('.grid-items');
+        divs.forEach(div => div.addEventListener('mousemove', color ));
+        
+    }
+
+    function makeGrid(rows, cols) {
+        container.style.setProperty('--grid-rows', rows);
+        container.style.setProperty('--grid-cols', cols);
+        for (let i = 0 ; i < (rows * cols) ; i++){
+            let cell = document.createElement('div');
+            container.appendChild(cell).className = "grid-items"
+        }
+    };
+
+    const items = document.querySelector('#container');
+    
+    let isDown = false;
+
+    items.addEventListener('mousedown', () => isDown = true);
+
+    items.addEventListener('mouseup', () => isDown = false);
+    
+    
+    function color(e) {
+        if(!isDown) return;
+        e.preventDefault;
+        let target = e.target;
+        target.classList.add('color');
+        target.style.backgroundColor = `rgb(${randomRGB()}, ${randomRGB()}, ${randomRGB()})`;
+        target.style.opacity = (parseFloat(target.style.opacity) || 0) + 0.2; 
+        
+    };    
+
+    function decrease(n) {
+        return n -= 10;
+    }
+    
+    function randomRGB() {
+        return Math.floor(Math.random() * 256);
+    }
+    
+
+    //add class active to divs
+    //change back ground color of that div when mouse down
+
+</script>
+</html>
